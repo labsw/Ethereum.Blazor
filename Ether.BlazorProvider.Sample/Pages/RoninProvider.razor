@@ -13,26 +13,10 @@
 
     private IJsonRpcProvider? _myProvider;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if( firstRender)
-        {
-            var options = new JsonRpcProviderOptions()
-                {
-                    ProviderPath = "ronin.provider",
-                    SupportsEip1193 = false
-                };
-
-            _myProvider = await _etherProvider.InitProvider("ronin", options);
-            StateHasChanged();
-        }
+        _myProvider = await _etherProvider.GetProvider("ronin");
+        await base.OnInitializedAsync();
     }
 
     public void Dispose()

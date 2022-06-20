@@ -14,7 +14,7 @@
         event Action<long> ChainIdChanged;
 
         /// <summary>
-        /// The options that this provider was initialised with
+        /// The options that this provider was initialised with - changing these will have no effect
         /// </summary>
         JsonRpcProviderOptions Options { get; }
 
@@ -28,11 +28,6 @@
         /// </summary>
         /// <returns>True if the provider extension is abailable in the browser otherwise false</returns>
         ValueTask<bool> IsAvailable();
-
-        /// <summary>
-        /// Configures account or chain Id changes to tracked.
-        /// </summary>
-        ValueTask ConfigureEvents();
 
         /// <summary>
         /// Connects to the provider requesting the account address. Exceptions can be throwed if access is denied.

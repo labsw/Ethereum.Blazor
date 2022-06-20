@@ -15,7 +15,7 @@
 		<PackageTags>blazor metamask ethereum blockchain web3</PackageTags>
 		<Version>1.1.0</Version>
 		<Authors>steve.whiting</Authors>
-		<Description>This package provides an interface to MetaMask and other web3 clients for use within Blazor WebAssembly</Description>
+		<Description>This package provides an interface to EIP 1193 and legacy web3 clients like MetaMask for use within Blazor WebAssembly</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 

@@ -7,7 +7,7 @@ namespace Ether.NethereumProvider
     {
         public static void AddNethereumProvider(this IServiceCollection services)
         {
-            services.AddSingleton<IMetaMaskProvider, MetaMaskProvider>();
+//            services.AddSingleton<IMetaMaskProvider, MetaMaskProvider>();
             services.AddSingleton<INethereumMetaMaskProvider, NetherumMetaMaskProvider>();
         }
     }

@@ -1,10 +1,5 @@
 ﻿using Microsoft.JSInterop;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ether.BlazorProvider.Internal
 {
@@ -16,6 +11,8 @@ namespace Ether.BlazorProvider.Internal
 
         ValueTask<string> Request(string jsonRequest, long? timeoutInMs);
         ValueTask<RpcResponseMessageDto> Request(RpcRequestMessageDto request, long? timeoutInMs);
+
+        ValueTask RemoveEvents();
     }
 
     internal class JsonRpcProviderInterop : IJsonRpcProviderInterop, IAsyncDisposable
@@ -26,7 +23,6 @@ namespace Ether.BlazorProvider.Internal
         private Action<long>? _onChainIdChanged;
 
         private DotNetObjectReference<JsonRpcProviderInterop>? _dotNetObjectReference = null;
-        private bool _configureDone;
 
         public JsonRpcProviderInterop(IJSObjectReference jsProvider)
         {
@@ -47,8 +43,6 @@ namespace Ether.BlazorProvider.Internal
             _onAccountChanged = onAccountChanged;
             _onChainIdChanged = onChainChanged;
             _dotNetObjectReference = dotNetObjectReference;
-            _configureDone = true;
-
         }
 
         public ValueTask<string> Request(string jsonRequest, long? timeoutInMs)
@@ -70,9 +64,21 @@ namespace Ether.BlazorProvider.Internal
             throw new EtherProviderException("Failed to deserialised response");
         }
 
+        public async ValueTask RemoveEvents()
+        {
+            if( _dotNetObjectReference != null )
+            {
+                await _jsProvider.InvokeVoidAsync("removeEvents");
+            }
+       }
+
         public async ValueTask DisposeAsync()
         {
+            await RemoveEvents();
+
             _dotNetObjectReference?.Dispose();
+
+            _dotNetObjectReference = null;
             _onAccountChanged = null;
             _onChainIdChanged = null;
 
@@ -98,7 +104,6 @@ namespace Ether.BlazorProvider.Internal
 
             return Task.CompletedTask;
         }
-
 
     }
 }

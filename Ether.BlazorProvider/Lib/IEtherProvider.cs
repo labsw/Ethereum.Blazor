@@ -8,6 +8,9 @@ namespace Ether.BlazorProvider
 {
     public interface IEtherProvider
     {
-        ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options);
+//        ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options);
+
+        ValueTask<IJsonRpcProvider> GetProvider(string name);
+
     }
 }

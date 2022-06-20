@@ -5,19 +5,49 @@ namespace Ether.BlazorProvider
 {
     public class EtherProvider : IEtherProvider
     {
-        private IEtherInterop _etherInterop;
+        private readonly IEtherInterop _etherInterop;
+        private readonly EtherProviderConfiguration _etherProviderConfiguration;
 
-        public EtherProvider(IJSRuntime jsRuntime)
+        private Dictionary<string, IJsonRpcProvider> _providers = new Dictionary<string, IJsonRpcProvider>();
+
+        public EtherProvider(IJSRuntime jsRuntime, EtherProviderConfiguration etherProviderConfiguration)
         {
             _etherInterop = new EtherInterop(jsRuntime);
+            _etherProviderConfiguration = etherProviderConfiguration;
         }
 
-        public async ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options)
+        public async ValueTask<IJsonRpcProvider> GetProvider(string name)
+        {
+            // todo: locks?
+
+            if( _providers.TryGetValue(name, out IJsonRpcProvider? provider) )
+            {
+                return provider;
+
+            }
+
+            JsonRpcProviderOptions? jsonRpcProviderOptions = _etherProviderConfiguration.TryGetProviderOptions(name);
+            if (jsonRpcProviderOptions == null)
+                throw new EtherProviderException($"Provider {name} has not been configured");
+
+            IJsonRpcProvider? newProvider = await InitProvider(name, jsonRpcProviderOptions);
+            _providers.Add(name, newProvider);
+
+            return newProvider;
+        }
+
+        private async ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options)
         {
             var optionsDto = BuildOptopnsDto(options);
 
             IJsonRpcProviderInterop providerInterop = await _etherInterop.InitProvider(name, optionsDto);
             var provider = new JsonRpcProvider(providerInterop, name, options);
+
+            if( options.EnableEvents)
+            {
+                await provider.ConfigureEvents();
+            }
+
             return provider;
         }
 

@@ -78,7 +78,9 @@ namespace Ether.BlazorProvider.Internal
             return _providerInterop.Request(request,timeoutInMs);
         }
 
-        public async ValueTask ConfigureEvents()
+        //--
+
+        internal async ValueTask ConfigureEvents()
         {
             if (!_configureEventsDone)
             {
@@ -86,8 +88,6 @@ namespace Ether.BlazorProvider.Internal
                 _configureEventsDone = true;
             }
         }
-
-        //--
 
         private async ValueTask<T> InternalRequest<T>(string method, TimeSpan? timeout, params object[] p)
         {

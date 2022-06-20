@@ -13,32 +13,15 @@
 
     private IJsonRpcProvider? _myProvider;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if( firstRender)
-        {
-
-            //var options = new JsonRpcProviderOptions()
-            //    {
-            //        ProviderPath = "ethereum",
-            //        SupportsEip1193 = true
-            //    };
-
-            // using the built in MetaMask options 
-
-            _myProvider = await _etherProvider.InitProvider("metamask", JsonRpcProviderOptions.MetaMaskOptions );
-            StateHasChanged();
-        }
+        _myProvider = await _etherProvider.GetProvider("my-metamask");
+        await base.OnInitializedAsync();
     }
 
     public void Dispose()
     {
     }
+
+
 }

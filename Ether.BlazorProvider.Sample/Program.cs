@@ -9,9 +9,23 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-// note: AddNethereumProvider() includes the MetaMask provider
+builder.Services.AddEtherProvider( options =>
+    {
 
-// if you are only using the MetaMask provider then use AddMetaMaskProvider()
-builder.Services.AddEtherProvider();
+        // quick metamask configuration - you still need to provide a name
+        options.AddMetaMaskProvider("my-metamask");
+
+        // example of disabling events
+        //options.AddMetaMaskProvider("my-metamask").Configure(x => x.EnableEvents = false);
+
+        // standard way to configure
+        options.AddProvider("ronin")
+            .Configure(x =>
+            {
+                x.ProviderPath = "ronin.provider";
+                x.SupportsEip1193 = false;
+            });
+    }
+);
 
 await builder.Build().RunAsync();
