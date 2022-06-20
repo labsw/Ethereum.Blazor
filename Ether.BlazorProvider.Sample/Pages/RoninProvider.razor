@@ -1,0 +1,41 @@
+﻿@page "/roninprovider"
+@using System.Numerics
+@using Ether.BlazorProvider
+
+@implements IDisposable
+@inject IEtherProvider _etherProvider;
+
+<PageTitle>Ether Provider (Ronin)</PageTitle>
+
+    <ProviderSummary ProviderName="Ronin" Provider="@_provider"/>
+
+@code {
+
+    private IJsonRpcProvider? _provider;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if( firstRender)
+        {
+            var options = new JsonRpcProviderOptions()
+                {
+                    ProviderPath = "ronin.provider",
+                    SupportsEip1193 = false
+                };
+
+            _provider = await _etherProvider.InitProvider("ronin", options);
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+    }
+}

@@ -1,0 +1,11 @@
+.vs
+.idea
+*.DotSettings.user
+/tools/TraderLab/scripts/app.js.map
+/tools/TraderLab/scripts/app.js
+/tools/TraderLab/scripts/simple-chart.js.map
+/tools/TraderLab/scripts/simple-chart.js
+/src/Tools/TraderLab/TraderLab/scripts/simple-chart.js.map
+/src/Tools/TraderLab/TraderLab/scripts/simple-chart.js
+/src/Tools/TraderLab/TraderLab/scripts/app.js.map
+/src/Tools/TraderLab/TraderLab/scripts/app.js

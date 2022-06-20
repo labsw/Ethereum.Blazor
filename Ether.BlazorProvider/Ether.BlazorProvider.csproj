@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/labsw/metamaskprovider</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/labsw/metamaskprovider</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>blazor metamask ethereum blockchain web3</PackageTags>
+		<Version>1.1.0</Version>
+		<Authors>steve.whiting</Authors>
+		<Description>This package provides an interface to MetaMask and other web3 clients for use within Blazor WebAssembly</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TypeScriptTarget>ES6</TypeScriptTarget>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TypeScriptTarget>ES6</TypeScriptTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="scripts\MetaMaskInterop.ts1" />
+	  <None Remove="scripts\ProviderRegistry.ts1" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
+	<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.7.2">
+		<PrivateAssets>all</PrivateAssets>
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\MetaMaskInterop.ts1" />
+    <TypeScriptCompile Include="scripts\ProviderRegistry.ts1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

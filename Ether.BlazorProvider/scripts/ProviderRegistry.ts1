@@ -1,0 +1,24 @@
+﻿
+//import { JsonRpcProviderInterop } from './JsonRpcProviderInterop';
+
+class ProviderRegistry {
+    _registry: Map<string, JsonRpcProviderInterop>;
+
+    add(name: string, provider: JsonRpcProviderInterop) {
+
+        if (this._registry.has(name)) {
+            throw `Provider: ${name} has already been added`
+        }
+
+        this._registry.set(name, provider);
+    }
+
+    get(name: string): JsonRpcProviderInterop {
+
+        if (!this._registry.has(name)) {
+            throw `Provider: ${name} has not been added`
+        }
+
+        return this._registry.get(name);
+    }
+}

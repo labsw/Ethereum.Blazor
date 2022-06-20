@@ -1,0 +1,95 @@
+﻿@using System.Numerics
+<h3>ProviderSummary</h3>
+
+<h3>Ether Provider (@ProviderName)</h3>
+
+<div>
+    <div>IsAvailable:@IsAvailable</div>
+    <div>Account:@Account</div>
+    <div>ChainId:@ChainId</div>
+    <div>Balance (Eth):@BalanceInEth</div>
+    <div>Balance (Wei):@BalanceInWei</div>
+</div>
+
+<div>
+    <button class="btn btn-primary" @onclick="OnConnect">Connect</button>
+    <button class="btn btn-primary" @onclick="OnRefresh">Refresh</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public string ProviderName { get; set; } = string.Empty;
+
+    [Parameter]
+    public IJsonRpcProvider? Provider { get; set; }
+
+    private IJsonRpcProvider? _providerInternal; 
+
+    private bool IsAvailable { get; set; }
+    private string Account { get; set; } = "<none>";
+    private long ChainId { get; set; }
+    private double BalanceInEth { get; set; } = 0;
+    private string BalanceInWei { get; set; } = "";
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if( Provider != _providerInternal )
+        {
+            _providerInternal = Provider;
+            IsAvailable = await _providerInternal!.IsAvailable();
+
+        }
+    }
+
+    private async Task OnConnect()
+    {
+        try
+        {
+            Account = await _providerInternal!.Connect();
+            await Refresh();
+        }
+        catch (Exception ex)
+        {            
+        }
+    }
+
+    private Task OnRefresh()
+    {
+        return Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        Account = await _providerInternal!.GetAccount();
+        ChainId = await _providerInternal!.GetChainId();
+        await RefreshBalance();
+    }
+
+    private async Task RefreshBalance()
+    {
+        var request = new RpcRequestMessage(1, "eth_getBalance", Account, "latest");
+        IRpcResponseMessage response = await _providerInternal!.Request(request);
+        if( !response.HasError )
+        {
+            string hexStr = response.ResultAs<string>();
+
+            BigInteger balanceInWei = HexConverter.HexToBigInteger(hexStr);
+
+            BigInteger maxWei = BigInteger.Pow(10, 18);
+            double balanceInEth = (double)balanceInWei / (double)maxWei;
+            BalanceInEth = balanceInEth;
+            BalanceInWei = balanceInWei.ToString();
+
+        }
+        else
+        {
+            // error handling
+        }
+    }
+
+
+
+}

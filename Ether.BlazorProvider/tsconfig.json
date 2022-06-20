@@ -1,0 +1,25 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "target": "es6",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+
+    "outDir": "wwwroot/js",
+    "baseUrl": "./scripts"
+  },
+  "include": [
+    "scripts/**/*"
+  ]
+}

@@ -1,0 +1,91 @@
+﻿@page "/nethereum"
+@using System.Numerics
+@using Ether.NethereumProvider
+@using Nethereum.Hex.HexConvertors.Extensions
+
+@implements IDisposable
+
+@inject INethereumMetaMaskProvider _provider;
+
+<PageTitle>Nethereum Provider</PageTitle>
+
+<h1>Nethereum Provider</h1>
+
+<div>
+    <div>IsMetaMaskAvailable:@IsMetaMaskAvailable</div>
+    <div>Account:@Account</div>
+    <div>ChainId:@ChainId</div>
+    <div>Balance (Eth):@BalanceInEth</div>
+    <div>Balance (Wei):@BalanceInWei</div>
+</div>
+
+<div>
+    <button class="btn btn-primary" @onclick="OnConnect">Connect</button>
+    <button class="btn btn-primary" @onclick="OnRefresh">Refresh</button>
+
+</div>
+
+@code {
+
+    bool IsMetaMaskAvailable { get; set; }
+    string Account { get; set; } = "<none>";
+    long ChainId { get; set; }
+    double BalanceInEth { get; set; } = 0;
+    string BalanceInWei { get; set; } = "";
+    string SignedMessage { get; set; } = "<not signed>";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if( firstRender)
+        {
+            IsMetaMaskAvailable = await _provider.IsMetaMaskAvailable();
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+    }
+
+    private async Task OnConnect()
+    {
+        await _provider.Connect();
+        await Refresh();
+    }
+
+    private Task OnRefresh()
+    {
+        return Refresh();
+    }
+
+    private async Task Refresh()
+    {
+        Nethereum.Web3.IWeb3 web3 = await _provider.CreateWeb3();
+
+        Account = _provider.Account;
+
+        var chainId = await web3.Eth.ChainId.SendRequestAsync();
+        ChainId = (long)(chainId.Value);
+
+        await RefreshBalance(web3, Account);
+    }
+
+    private async Task RefreshBalance(Nethereum.Web3.IWeb3 web3, string account)
+    {
+        BigInteger maxWei = BigInteger.Pow(10, 18);
+
+        BigInteger balanceInWei = (await web3.Eth.GetBalance.SendRequestAsync(account)).Value;
+        double balanceInEth = (double)balanceInWei / (double)maxWei;
+
+        BalanceInEth = balanceInEth;
+        BalanceInWei = balanceInWei.ToString();
+    }
+
+}
