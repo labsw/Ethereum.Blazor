@@ -2,11 +2,37 @@
 {
     public interface IJsonRpcProvider
     {
+
+        /// <summary>
+        /// Receive account change events
+        /// </summary>
+        event Action<string> AccountChanged;
+
+        /// <summary>
+        /// Receive Chain ID change events.
+        /// </summary>
+        event Action<long> ChainIdChanged;
+
+        /// <summary>
+        /// The options that this provider was initialised with
+        /// </summary>
+        JsonRpcProviderOptions Options { get; }
+
+        /// <summary>
+        /// Name of the provider - as supplied on the InitProvider() call
+        /// </summary>
+        string Name { get; }
+
         /// <summary>
         /// Returns a boolean indicating whether the provider extension is installed or not
         /// </summary>
         /// <returns>True if the provider extension is abailable in the browser otherwise false</returns>
         ValueTask<bool> IsAvailable();
+
+        /// <summary>
+        /// Configures account or chain Id changes to tracked.
+        /// </summary>
+        ValueTask ConfigureEvents();
 
         /// <summary>
         /// Connects to the provider requesting the account address. Exceptions can be throwed if access is denied.
@@ -43,11 +69,6 @@
         /// <param name="request">A JSON string that containes the RPC request</param>
         /// <returns>A JSON string with the RPC response</returns>
         ValueTask<string> Request(string request, TimeSpan? timeout = null);
-
-        /// <summary>
-        /// The options that this provider was initialised with
-        /// </summary>
-        JsonRpcProviderOptions Options { get; }
 
     }
 }

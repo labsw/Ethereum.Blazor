@@ -1,4 +1,4 @@
-﻿# MetaMask.Blazor.Provider
+﻿# Ether.NethereumProvider
 
 This library provides a [Netherem](https://nethereum.com) IWeb3 client interface for use within Blazor WebAssembly.
 

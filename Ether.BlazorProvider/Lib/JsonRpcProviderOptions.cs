@@ -10,7 +10,21 @@ namespace Ether.BlazorProvider
     {
         public string ProviderPath { get; set; } = string.Empty;
         public bool SupportsEip1193 { get; set; } = true;
+
+        public static JsonRpcProviderOptions MetaMaskOptions => _metaMaskOptions;
+
+        //-- 
+
+        private static JsonRpcProviderOptions _metaMaskOptions = new JsonRpcProviderOptions()
+        {
+            ProviderPath = "ethereum",
+            SupportsEip1193 = true
+        };
+
+
     }
+
+
 
 
 }

@@ -10,13 +10,27 @@ namespace Ether.BlazorProvider.Internal
     internal class JsonRpcProvider : IJsonRpcProvider
     {
         private IJsonRpcProviderInterop _providerInterop;
-        private JsonRpcProviderOptions _options;
+        private readonly string _name;
+        private readonly JsonRpcProviderOptions _options;
 
-        public JsonRpcProvider(IJsonRpcProviderInterop providerInterop, JsonRpcProviderOptions options)
+        private string? _account;
+        private long _chainId;
+
+        private bool _configureEventsDone;
+
+        public event Action<string>? AccountChanged;
+        public event Action<long>? ChainIdChanged;
+
+        public JsonRpcProvider(IJsonRpcProviderInterop providerInterop, string name, JsonRpcProviderOptions options)
         {
             _providerInterop = providerInterop;
+            _name = name;
             _options = options;
         }
+
+        public JsonRpcProviderOptions Options => _options;
+
+        public string Name => _name;
 
         public async ValueTask<string> Connect(TimeSpan? timeout = null)
         {
@@ -64,7 +78,14 @@ namespace Ether.BlazorProvider.Internal
             return _providerInterop.Request(request,timeoutInMs);
         }
 
-        public JsonRpcProviderOptions Options => _options;
+        public async ValueTask ConfigureEvents()
+        {
+            if (!_configureEventsDone)
+            {
+                await _providerInterop.ConfigureEvents(OnAccountChanged, OnChainIdChanged);
+                _configureEventsDone = true;
+            }
+        }
 
         //--
 
@@ -76,5 +97,36 @@ namespace Ether.BlazorProvider.Internal
 
             return responseMessage.ResultAs<T>();
         }
+
+        private void UpdateAccount(string account)
+        {
+            if (_account != account)
+            {
+                _account = account;
+                if (AccountChanged != null)
+                    AccountChanged.Invoke(account);
+            }
+        }
+
+        private void UpdateChainId(long chainId)
+        {
+            if (_chainId != chainId)
+            {
+                _chainId = chainId;
+                if (ChainIdChanged != null)
+                    ChainIdChanged.Invoke(chainId);
+            }
+        }
+
+        private void OnAccountChanged(string account)
+        {
+            UpdateAccount(account);
+        }
+
+        private void OnChainIdChanged(long chainId)
+        {
+            UpdateChainId(chainId);
+        }
+
     }
 }

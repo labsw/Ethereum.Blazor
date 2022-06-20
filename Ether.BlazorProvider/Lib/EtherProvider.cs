@@ -1,10 +1,5 @@
 ﻿using Ether.BlazorProvider.Internal;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ether.BlazorProvider
 {
@@ -19,9 +14,32 @@ namespace Ether.BlazorProvider
 
         public async ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options)
         {
-            IJsonRpcProviderInterop providerInterop = await _etherInterop.InitProvider(name, options);
-            var provider = new JsonRpcProvider(providerInterop, options);
+            var optionsDto = BuildOptopnsDto(options);
+
+            IJsonRpcProviderInterop providerInterop = await _etherInterop.InitProvider(name, optionsDto);
+            var provider = new JsonRpcProvider(providerInterop, name, options);
             return provider;
+        }
+
+        //-- 
+
+        private JsonRpcProviderOptionsDto BuildOptopnsDto(JsonRpcProviderOptions options)
+        {
+            var dto = new JsonRpcProviderOptionsDto(
+                providerPath:BuildProviderPath(options.ProviderPath),
+                supportsEip1193: options.SupportsEip1193);
+
+            return dto;
+        }
+
+        private string BuildProviderPath(string p)
+        {
+            if( p.StartsWith("window."))
+            {
+                return p.Substring("window.".Length);
+            }
+
+            return p;
         }
 
 

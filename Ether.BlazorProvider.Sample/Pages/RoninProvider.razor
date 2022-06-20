@@ -7,11 +7,11 @@
 
 <PageTitle>Ether Provider (Ronin)</PageTitle>
 
-    <ProviderSummary ProviderName="Ronin" Provider="@_provider"/>
+    <ProviderSummary ProviderName="Ronin" Provider="@_myProvider"/>
 
 @code {
 
-    private IJsonRpcProvider? _provider;
+    private IJsonRpcProvider? _myProvider;
 
     protected override void OnInitialized()
     {
@@ -30,7 +30,7 @@
                     SupportsEip1193 = false
                 };
 
-            _provider = await _etherProvider.InitProvider("ronin", options);
+            _myProvider = await _etherProvider.InitProvider("ronin", options);
             StateHasChanged();
         }
     }

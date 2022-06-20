@@ -1,17 +1,17 @@
-﻿# MetaMask.Provider
+﻿# Ethereum.Blazor
 
-This repository contains two libraries which provider MetaMask support within Blazor WebAssembly.
+This repository contains two libraries
 
-* [MetaMask.BlazorProvider](MetaMask.BlazorProvider/README.md) - this library provides a simple interface to MetaMask.
-* [MetaMask.NetherermProvider](MetaMask.NethereumProvider/README.md) - this library provides a Nethereum IWeb3 client using MetaMask as the RPC endpint.
+* [Ether.BlazorProvider](Ether.BlazorProvider/README.md) - this library provides a interface to web3 compatible browser plugins like MetaMask.
+* [Ether.NetherermProvider](Ether.NethereumProvider/README.md) - this library provides a Nethereum IWeb3 client using using the  Ether.BlazorProvider as the RPC endpint.
 
-## MetaMask.BlazorProvider
+## Ether.BlazorProvider
 
 This library has no additional depedencies other that MetaMask browser extension.
 
-## MetaMask.NetherermProvider
+## Ether.NetherermProvider
 
-This library depends on the MetaMask.BlazorProvider and [Netherem](https://nethereum.com)
+This library depends on the Ether.BlazorProvider and [Netherem](https://nethereum.com)
 
 ## Warning
 

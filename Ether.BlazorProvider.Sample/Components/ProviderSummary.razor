@@ -4,6 +4,7 @@
 <h3>Ether Provider (@ProviderName)</h3>
 
 <div>
+    <div>Name:@Provider?.Name</div>
     <div>IsAvailable:@IsAvailable</div>
     <div>Account:@Account</div>
     <div>ChainId:@ChainId</div>
@@ -51,8 +52,9 @@
             Account = await _providerInternal!.Connect();
             await Refresh();
         }
-        catch (Exception ex)
-        {            
+        catch (Exception)
+        {
+            // error handling goes here
         }
     }
 

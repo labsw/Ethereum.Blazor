@@ -27,11 +27,6 @@
 		<TypeScriptTarget>ES6</TypeScriptTarget>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <None Remove="scripts\MetaMaskInterop.ts1" />
-	  <None Remove="scripts\ProviderRegistry.ts1" />
-	</ItemGroup>
-
 
 	<ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -39,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
-	<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.7.2">
+	<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.7.4">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
@@ -49,11 +44,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="scripts\MetaMaskInterop.ts1" />
-    <TypeScriptCompile Include="scripts\ProviderRegistry.ts1" />
   </ItemGroup>
 
   <ItemGroup>

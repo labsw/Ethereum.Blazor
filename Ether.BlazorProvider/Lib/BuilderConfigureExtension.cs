@@ -4,7 +4,7 @@ namespace Ether.BlazorProvider
 {
     public static class BuilderConfigureExtension
     {
-        public static void AddMetaMaskProvider(this IServiceCollection services)
+        public static void AddEtherProvider(this IServiceCollection services)
         {
             services.AddSingleton<IEtherProvider, EtherProvider>();
         }

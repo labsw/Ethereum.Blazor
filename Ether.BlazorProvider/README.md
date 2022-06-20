@@ -1,79 +1,80 @@
-﻿# MetaMask.Blazor.Provider
+﻿# Ether.BlazorProvider
 
-This library provides a simple interface to MetaMask for use within Blazor WebAssembly.
+This library provides an interface to web3 compatible browser plugins like MetaMask for use within Blazor WebAssembly.
 
 ## How to use
 
 Register the provider:
 
 ```cs
-builder.Services.AddMetaMaskProvider();
+builder.Services.AddEtherProvider();
 ```
 
 Inject the provider into a Razor page:
 
 ```cs
-@using MetaMask.BlazorProvider
-@inject IMetaMaskProvider MetaMaskProvider;
+@using Ether.BlazorProvider
+@inject IEtherProvider EtherProvider;
 ```
 
-Using the provider:
+Initialise the provider:
 
-Check if MetaMask has been installed
+Parameters
+
+* name: this is user supplied and can be anything
+* options:
+  * ProviderPath: this is the global javascript object that the browser plugin creates for the provider.
+  * SupportsEip1193: indicates if the provider supports EIP 1193, the default is true
+
+Example: if the global javascript is "window.ronin.provider" then ProviderPath will be "ronin.provider". The window part is not required and will be ignored if included.
 
 ```cs
-bool isAvailable = await MetaMaskProvider.IsMetaMaskAvailable();
+var options = new JsonRpcProviderOptions()
+    {
+        ProviderPath = "ethereum",
+        SupportsEip1193 = true
+    };
+
+IJsonRpcProvider myProvider = await _etherProvider.InitProvider("my-provider", options );
 ```
 
-Connect to MetaMask:
+Check if the provider path is available
 
 ```cs
-string connectedAccount = await MetaMaskProvider.Connect();
+bool isAvailable = await myProvider.IsAvailable();
+```
+
+Connect to the provider:
+
+```cs
+string connectedAccount = await myProvider.Connect();
 ```
 
 The currently selected account address is returned if the connect is successful, otherwise exceptions can be thrown if access is denied. ```Connect()``` should be called before using any of the other methods.
 
-Handle update events:
+Connect can take a optional timeout parameter which will results in an exception being thrown if the timeout occurs.
 
-```cs
-await MetaMaskProvider.ListenForChanges();
-```
-
-This enables the provider to listen for account or chain changes. Add event handles to  ```AccountChanged``` or ```ChainIdChanged``` to get notified of the changes. ```ListenForChanges``` should just be called once. The event handlers should be removed once they are no longer required.
-
-The event handlers can be added before ```Connect()``` or ```ListenForChanges``` have been called.
-
-```cs
-// add events handlers
-MetaMaskProvider.AccountChanged += OnAccountChanged;    
-MetaMaskProvider.ChainIdChanged += OnChainIdChanged;    
-
-// remove event handlers
-MetaMaskProvider.AccountChanged -= OnAccountChanged;    
-MetaMaskProvider.ChainIdChanged -= OnChainIdChanged;    
-```
 
 To get the account or chain ID.
 
 ```cs
-string account = await MetaMaskProvider.GetAccount();
-long chainId = await MetaMaskProvider.GetChainId();
+string account = await myProvider.GetAccount();
+long chainId = await myProvider.GetChainId();
 ```
 
-To sign a message use ```SignMessage()```
 
-```cs
-string signedMessage = await MetaMaskProvider.SignMessage("hello, world");
-```
+To make general Ethereum RPC calls use ```Request()```. The methods and parameters of the RPC calls must conform to the [Ethereum RPC specification](https://eth.wiki/json-rpc/API#json-rpc-methods).
 
-To make general Ethereum RPC calls use ```RpcRequest()```. The methods and parameters of the RPC calles must conform to the [Ethereum RPC specification](https://eth.wiki/json-rpc/API#json-rpc-methods).
-
-There are two signatures to the ```RpcRequest()``` call. One that takes an object and one that takes a JSON string. The JSON string must conform to the [Ethereum RPC specification](https://eth.wiki/json-rpc/API#json-rpc-methods).
+There are two signatures to the ```Request()``` call. One that takes an object and one that takes a JSON string. The JSON string must conform to the [Ethereum RPC specification](https://eth.wiki/json-rpc/API#json-rpc-methods).
 
 ```cs
 var request = new RpcRequestMessage(1, "eth_getBalance", Account, "latest");
-RpcResponseMessage response = await MetaMaskProvider.RpcRequest(request);
+RpcResponseMessage response = await myProvider.Request(request);
 ```
+
+## Sample App
+
+See Ether.BlazorProvider.Sample for a simple working example
 
 ## Warning
 
@@ -81,6 +82,6 @@ Executing blockchain transactions are irreversible. Ensure sufficient testing ha
 
 This software is provided as is wth no warranty of any kind, see the [license](../LICENSE)
 
-## Commets / Suggestions
+## Comments / Suggestions
 
 Feel free to suggest any improvements or bug fixes

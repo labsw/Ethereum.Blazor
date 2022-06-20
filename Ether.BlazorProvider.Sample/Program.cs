@@ -12,6 +12,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 // note: AddNethereumProvider() includes the MetaMask provider
 
 // if you are only using the MetaMask provider then use AddMetaMaskProvider()
-builder.Services.AddMetaMaskProvider();
+builder.Services.AddEtherProvider();
 
 await builder.Build().RunAsync();

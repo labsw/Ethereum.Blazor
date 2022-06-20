@@ -7,12 +7,11 @@
 
 <PageTitle>Ether Provider (MetaMask)</PageTitle>
 
-   <ProviderSummary ProviderName="MetaMask" Provider="@_provider" @ref="_providerSummary"/>
+   <ProviderSummary ProviderName="MetaMask" Provider="@_myProvider"/>
 
 @code {
 
-    private IJsonRpcProvider? _provider;
-    private ProviderSummary? _providerSummary;
+    private IJsonRpcProvider? _myProvider;
 
     protected override void OnInitialized()
     {
@@ -25,13 +24,16 @@
 
         if( firstRender)
         {
-            var options = new JsonRpcProviderOptions()
-                {
-                    ProviderPath = "ethereum",
-                    SupportsEip1193 = true
-                };
 
-            _provider = await _etherProvider.InitProvider("metamask", options );
+            //var options = new JsonRpcProviderOptions()
+            //    {
+            //        ProviderPath = "ethereum",
+            //        SupportsEip1193 = true
+            //    };
+
+            // using the built in MetaMask options 
+
+            _myProvider = await _etherProvider.InitProvider("metamask", JsonRpcProviderOptions.MetaMaskOptions );
             StateHasChanged();
         }
     }

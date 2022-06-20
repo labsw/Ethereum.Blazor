@@ -18,7 +18,7 @@ namespace Ether.BlazorProvider.Internal
         }
 
 
-        public async ValueTask<IJsonRpcProviderInterop> InitProvider(string name,JsonRpcProviderOptions options)
+        public async ValueTask<IJsonRpcProviderInterop> InitProvider(string name, JsonRpcProviderOptionsDto options)
         {
             var jsProvider = await InvokeInteropMethod<IJSObjectReference>("initProvider",name,options);
             var provider = new JsonRpcProviderInterop(jsProvider);
