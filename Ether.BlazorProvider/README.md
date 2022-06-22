@@ -98,6 +98,30 @@ var request = new RpcRequestMessage(1, "eth_getBalance", Account, "latest");
 RpcResponseMessage response = await myProvider.Request(request);
 ```
 
+__Events___
+
+The following events are available:
+
+* AccountChanged - this is fired if the user changes the current account
+* ChainIdChanged - this is fired of the user changes the current network
+
+These events are only available if the configured provider supports EIP 1193, MetaMask does support EIP 1193
+
+```cs
+// add an event handler
+myProvider.AccountChanged += OnAccountChanged;
+
+// remove a event handler (it is good practice to remove handlers when they are no longer required)
+myProvider.AccountChanged -= OnAccountChanged;
+
+
+private void OnAccountChanged(string account)
+{
+    // todo
+}
+
+```
+
 ## Sample App
 
 See Ether.BlazorProvider.Sample for a simple working example

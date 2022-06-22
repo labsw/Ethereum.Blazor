@@ -47,7 +47,7 @@ namespace Ether.BlazorProvider.Internal
                 var r = await module.InvokeAsync<T>($"{_etherServiceName}.{method}", args);
                 return r;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
