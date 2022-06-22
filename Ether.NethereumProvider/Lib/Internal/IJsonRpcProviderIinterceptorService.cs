@@ -2,9 +2,9 @@
 
 namespace Ether.NethereumProvider.Internal
 {
-    internal interface IMetaMaskInterceptorService
+    internal interface IJsonRpcProviderInterceptorService
     {
         public string Account { get; set; }
-        ValueTask<RpcResponseMessage> RpcRequest(RpcRequestMessage request);
+        ValueTask<RpcResponseMessage> Request(RpcRequestMessage request);
     }
 }

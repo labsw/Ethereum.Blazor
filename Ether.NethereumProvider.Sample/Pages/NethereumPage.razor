@@ -3,16 +3,14 @@
 @using Ether.NethereumProvider
 @using Nethereum.Hex.HexConvertors.Extensions
 
-@implements IDisposable
+@inject INethereumProviderRegistry _registry;
 
-@inject INethereumMetaMaskProvider _provider;
+<PageTitle>Nethereum Web3 Provider</PageTitle>
 
-<PageTitle>Nethereum Provider</PageTitle>
-
-<h1>Nethereum Provider</h1>
+<h1>Nethereum Web3 Provider</h1>
 
 <div>
-    <div>IsMetaMaskAvailable:@IsMetaMaskAvailable</div>
+    <div>IsProviderAvailable:@IsProviderAvailable</div>
     <div>Account:@Account</div>
     <div>ChainId:@ChainId</div>
     <div>Balance (Eth):@BalanceInEth</div>
@@ -27,36 +25,26 @@
 
 @code {
 
-    bool IsMetaMaskAvailable { get; set; }
+    bool IsProviderAvailable { get; set; }
     string Account { get; set; } = "<none>";
     long ChainId { get; set; }
     double BalanceInEth { get; set; } = 0;
     string BalanceInWei { get; set; } = "";
     string SignedMessage { get; set; } = "<not signed>";
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        base.OnInitialized();
-    }
+        var provider = await _registry.GetSingleProvider();
+        IsProviderAvailable = await provider.IsProviderAvailable();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if( firstRender)
-        {
-            IsMetaMaskAvailable = await _provider.IsMetaMaskAvailable();
-            StateHasChanged();
-        }
-    }
-
-    public void Dispose()
-    {
+        await base.OnInitializedAsync();
     }
 
     private async Task OnConnect()
     {
-        await _provider.Connect();
+        var provider = await _registry.GetSingleProvider();
+        await provider.Connect();
+
         await Refresh();
     }
 
@@ -67,9 +55,10 @@
 
     private async Task Refresh()
     {
-        Nethereum.Web3.IWeb3 web3 = await _provider.CreateWeb3();
+        var provider = await _registry.GetSingleProvider();
+        Nethereum.Web3.IWeb3 web3 = provider.GetWeb3();
 
-        Account = _provider.Account;
+        Account = provider.Account;
 
         var chainId = await web3.Eth.ChainId.SendRequestAsync();
         ChainId = (long)(chainId.Value);

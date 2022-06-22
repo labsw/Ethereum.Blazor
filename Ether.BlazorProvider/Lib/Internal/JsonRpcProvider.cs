@@ -34,7 +34,7 @@ namespace Ether.BlazorProvider.Internal
 
         public async ValueTask<string> Connect(TimeSpan? timeout = null)
         {
-            if( _options.SupportsEip1193)
+            if( _options.SupportsEip1102)
             {
                 var result = await InternalRequest<string[]>("eth_requestAccounts", timeout);
                 return result[0];

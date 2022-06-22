@@ -2,7 +2,7 @@
 
 namespace Ether.NethereumProvider
 {
-    public interface INethereumMetaMaskProvider
+    public interface INethereumWeb3Provider
     {
         /// <summary>
         /// The selected account
@@ -10,21 +10,20 @@ namespace Ether.NethereumProvider
         string Account { get; }
 
         /// <summary>
-        /// 
+        /// True if the provider is available
         /// </summary>
-        /// <returns>True if MetaMask is available otherwise false</returns>
-        ValueTask<bool> IsMetaMaskAvailable();
+        ValueTask<bool> IsProviderAvailable();
 
         /// <summary>
-        /// Connects to MetaMask requesting account access. This must be called before any usage of IWeb3 methods
+        /// Connects to provider requesting account access. This must be called before any usage of IWeb3 methods
         /// </summary>
         ValueTask Connect();
 
         /// <summary>
-        /// Creates a IWeb3 instance
+        /// Returns the IWeb3 client
         /// </summary>
         /// <returns>An IWeb3 interface</returns>
-        ValueTask<IWeb3> CreateWeb3();
+        IWeb3 GetWeb3();
 
     }
 }

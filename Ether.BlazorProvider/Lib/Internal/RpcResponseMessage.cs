@@ -11,7 +11,7 @@
 
         public string JsonRpcVersion => _dto.JsonRpcVersion;
 
-        public IRpcResonseError? Error { get; protected set; }
+        public IRpcResponseError? Error { get; protected set; }
 
         public bool HasError => _dto.HasError;
 
@@ -30,7 +30,7 @@
 
     //-- RpcResonseError
 
-    internal class RpcResonseError: IRpcResonseError
+    internal class RpcResonseError: IRpcResponseError
     {
         private RpcResonseErrorDto _dto;
 

@@ -5,10 +5,10 @@ namespace Ether.NethereumProvider
 {
     public static class BuilderConfigureExt
     {
-        public static void AddNethereumProvider(this IServiceCollection services)
+        public static void AddNethereumProviderRegistry(this IServiceCollection services)
         {
-//            services.AddSingleton<IMetaMaskProvider, MetaMaskProvider>();
-            services.AddSingleton<INethereumMetaMaskProvider, NetherumMetaMaskProvider>();
+            services.AddSingleton<INethereumProviderRegistry, NethereumProviderRegistry>();
         }
+
     }
 }

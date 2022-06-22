@@ -2,8 +2,7 @@
 @using System.Numerics
 @using Ether.BlazorProvider
 
-@implements IDisposable
-@inject IEtherProvider _etherProvider;
+@inject IEtherProviderRegistry _registry;
 
 <PageTitle>Ether Provider (MetaMask)</PageTitle>
 
@@ -15,13 +14,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _myProvider = await _etherProvider.GetProvider("my-metamask");
+        _myProvider = await _registry.GetProvider("my-metamask");
         await base.OnInitializedAsync();
     }
-
-    public void Dispose()
-    {
-    }
-
 
 }

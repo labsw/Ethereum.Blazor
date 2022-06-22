@@ -9,8 +9,8 @@
 
 	<PropertyGroup>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageProjectUrl>https://github.com/labsw/metamaskprovider</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/labsw/metamaskprovider</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/labsw/Ethereum.Blazor</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/labsw/Ethereum.Blazor</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>blazor metamask ethereum blockchain web3</PackageTags>
 		<Version>1.1.0</Version>

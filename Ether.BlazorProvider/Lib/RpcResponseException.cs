@@ -15,11 +15,11 @@ namespace Ether.BlazorProvider
 
     public class RpcResponseErrorException : RpcResponseException
     {
-        public RpcResponseErrorException(IRpcResonseError rpcError) : base(rpcError.Message)
+        public RpcResponseErrorException(IRpcResponseError rpcError) : base(rpcError.Message)
         {
             RpcError = rpcError;
         }
 
-        public IRpcResonseError RpcError { get; }
+        public IRpcResponseError RpcError { get; }
     }
 }

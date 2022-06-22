@@ -6,6 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/labsw/Ethereum.Blazor</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/labsw/Ethereum.Blazor</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>nethereum blazor metamask ethereum blockchain web3</PackageTags>
+		<Version>1.1.0</Version>
+		<Authors>steve.whiting</Authors>
+		<Description>This package provides IWeb3 client implementation to supporting wallets like MetaMask for use within Blazor WebAssembly</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />

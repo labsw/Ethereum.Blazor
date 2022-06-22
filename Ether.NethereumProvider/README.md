@@ -2,12 +2,12 @@
 
 This library provides a [Netherem](https://nethereum.com) IWeb3 client interface for use within Blazor WebAssembly.
 
-## How to use
+## Basic usage
 
 Register the provider:
 
 ```cs
-builder.Services.AddNethereumProvider();
+builder.Services.AddNethereumProviderRegistry();
 ```
 
 Inject the provider into a Razor page:

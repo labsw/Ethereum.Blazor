@@ -2,7 +2,6 @@
 {
     public interface IJsonRpcProvider
     {
-
         /// <summary>
         /// Receive account change events
         /// </summary>
@@ -14,12 +13,12 @@
         event Action<long> ChainIdChanged;
 
         /// <summary>
-        /// The options that this provider was initialised with - changing these will have no effect
+        /// The options that the provider was configured with.
         /// </summary>
         JsonRpcProviderOptions Options { get; }
 
         /// <summary>
-        /// Name of the provider - as supplied on the InitProvider() call
+        /// Name of the provider as configured in the AddEtherProvider()
         /// </summary>
         string Name { get; }
 
@@ -30,9 +29,9 @@
         ValueTask<bool> IsAvailable();
 
         /// <summary>
-        /// Connects to the provider requesting the account address. Exceptions can be throwed if access is denied.
-        /// If the provider options SupportEip1193 is set to false then GetAccount() is called to return the account
-        /// Optional timeout
+        /// If the provider was configured with SupportEip1102 = true then access to the wallet is requested. Exceptions can be throwed if access is denied.
+        /// If the provider was configured with SupportEip1102 = false then GetAccount() is called to return the current wallets's account.
+        /// An optional timeout can be supplied with an exception being throw if the timeout expires
         /// </summary>
         /// <returns>The account address</returns>
         ValueTask<string> Connect(TimeSpan? timeout = null);
@@ -40,13 +39,13 @@
         /// <summary>
         /// Issues a RPC request for the account address. Exceptions can be thrown on failure.
         /// </summary>
-        /// <returns>The selected account address</returns>
+        /// <returns>The current account address</returns>
         ValueTask<string> GetAccount();
 
         /// <summary>
         /// Issues a RPC request for the chain Id. Exceptions can be thrown in failure
         /// </summary>
-        /// <returns>The Chain ID</returns>
+        /// <returns>The current Chain ID</returns>
         ValueTask<long> GetChainId();
 
         /// <summary>
@@ -58,7 +57,7 @@
         ValueTask<IRpcResponseMessage> Request(RpcRequestMessage request, TimeSpan? timeout = null);
 
         /// <summary>
-        /// Execute a RPC call
+        /// Execute a RPC call. The request JSON should conform to the Ethererum RPC specification.
         /// Optional timeout duration
         /// </summary>
         /// <param name="request">A JSON string that containes the RPC request</param>

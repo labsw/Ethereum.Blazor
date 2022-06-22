@@ -6,26 +6,30 @@ using System.Threading.Tasks;
 
 namespace Ether.BlazorProvider
 {
-
     public class EtherProviderConfiguration
     {
         private Dictionary<string, JsonRpcProviderOptions> _providerOptions = new Dictionary<string, JsonRpcProviderOptions>();
 
+        /// <summary>
+        /// Configure a new provider. The name is arbitrary but must be unique amount all the providers.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <exception cref="EtherProviderException">This will be thrown if the name is not unique</exception>
         public JsonRpcProviderConfiguration AddProvider(string name)
         {
             if (_providerOptions.ContainsKey(name))
-                throw new Exception($"Name {name} is already configured");
+                throw new EtherProviderException($"Name {name} is already configured");
 
             var options = new JsonRpcProviderOptions();
             _providerOptions[name] = options;
 
-            return new JsonRpcProviderConfiguration(options);
+            return new JsonRpcProviderConfiguration(options,this);
         }
 
         /// <summary>
-        /// MetaMask default configuration
+        /// Configure a default MetaMask provider
         /// </summary>
-        public JsonRpcProviderConfiguration AddMetaMaskProvider(string name)
+        public JsonRpcProviderConfiguration AddMetaMaskProvider(string name = "metamask")
         {
             if (_providerOptions.ContainsKey(name))
                 throw new Exception($"Name {name} is already configured");
@@ -35,8 +39,12 @@ namespace Ether.BlazorProvider
 
             _providerOptions[name] = JsonRpcProviderOptions.MetaMaskOptions;
 
-            return new JsonRpcProviderConfiguration(options);
+            return new JsonRpcProviderConfiguration(options,this);
         }
+
+        //--
+
+        internal bool HasSingleProvider => _providerOptions.Count == 1;
 
         internal JsonRpcProviderOptions? TryGetProviderOptions(string name)
         {
@@ -45,22 +53,18 @@ namespace Ether.BlazorProvider
 
             return null;
         }
-    }
 
-    public class JsonRpcProviderConfiguration
-    {
-        private JsonRpcProviderOptions _options;
-
-        public JsonRpcProviderConfiguration(JsonRpcProviderOptions options)
+        internal KeyValuePair<string,JsonRpcProviderOptions>? TryGetSingleProviderOptions()
         {
-            _options = options;
+            if (_providerOptions.Count == 1)
+            {
+                return _providerOptions.First();
+            }
+
+            return null;
         }
 
-        public void Configure(Action<JsonRpcProviderOptions>? options = null)
-        {
-            if (options != null)
-                options(_options);
-        }
     }
+
 
 }

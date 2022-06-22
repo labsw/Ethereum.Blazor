@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace Ether.NethereumProvider.Internal
 {
-    internal class MetaMaskRpcRequestMessage : RpcRequestMessage
+    internal class NethereumRpcRequestMessage : RpcRequestMessage
     {
         [JsonProperty("from")]
         public string From { get; private set; }
 
-        public MetaMaskRpcRequestMessage(object id, string method, string from, params object[] parameterList)
+        public NethereumRpcRequestMessage(object id, string method, string from, params object[] parameterList)
             : base(id, method, parameterList)
         {
             From = from;

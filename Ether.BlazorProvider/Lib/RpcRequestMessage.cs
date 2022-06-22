@@ -1,14 +1,14 @@
 ﻿
 namespace Ether.BlazorProvider
 {
+    /// <summary>
+    /// A RPC request message - see the Ethereum RPC spec for details
+    /// </summary>
     public class RpcRequestMessage
     {
         public object Id { get; private set; }
-
         public string RpcVersion { get; private set; }
-
         public string Method { get; private set; }
-
         public object RawParameters { get; private set; }
 
         public RpcRequestMessage(object id, string method, params object[] parameterList)

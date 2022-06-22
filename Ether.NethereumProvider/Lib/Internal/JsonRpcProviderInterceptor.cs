@@ -1,16 +1,25 @@
 ﻿using Nethereum.JsonRpc.Client;
 using Nethereum.JsonRpc.Client.RpcMessages;
 using Nethereum.RPC.Eth.DTOs;
+using Newtonsoft.Json;
 
 namespace Ether.NethereumProvider.Internal
 {
-    internal class MetaMaskInterceptor : RequestInterceptor
+    internal class JsonRpcProviderInterceptor : RequestInterceptor
     {
-        private IMetaMaskInterceptorService _service;
+        private readonly Ether.BlazorProvider.IJsonRpcProvider _jsonRpcProvider;
+        private string _account = string.Empty;
 
-        public MetaMaskInterceptor(IMetaMaskInterceptorService service)
+        public JsonRpcProviderInterceptor(Ether.BlazorProvider.IJsonRpcProvider jsonRpcProvider)
         {
-            _service = service;
+            _jsonRpcProvider = jsonRpcProvider;
+        }
+
+        public string Account => _account;
+
+        public void UpdateAccount(string account)
+        {
+            _account = account;
         }
 
         public override async Task<object> InterceptSendRequestAsync<T>(
@@ -23,21 +32,21 @@ namespace Ether.NethereumProvider.Internal
         {
             if (request.Method == "eth_sendTransaction")
             {
-                string fromAddress = _service.Account;
+                string fromAddress = _account;
 
                 var transaction = (TransactionInput)request.RawParameters[0];
                 transaction.From = fromAddress;
                 request.RawParameters[0] = transaction;
 
-                var rpcRequest = new MetaMaskRpcRequestMessage(request.Id, request.Method, fromAddress, request.RawParameters);
-                RpcResponseMessage response = await _service.RpcRequest(rpcRequest);
+                var rpcRequest = new NethereumRpcRequestMessage(request.Id, request.Method, fromAddress, request.RawParameters);
+                RpcResponseMessage response = await Request(rpcRequest);
 
                 return ConvertResponse<T>(response);
             }
             else
             {
                 var rpcRequest = new RpcRequestMessage(request.Id, request.Method, request.RawParameters);
-                var response = await _service.RpcRequest(rpcRequest);
+                var response = await Request(rpcRequest);
 
                 return ConvertResponse<T>(response);
             }
@@ -54,27 +63,36 @@ namespace Ether.NethereumProvider.Internal
 
             if (method == "eth_sendTransaction")
             {
-                string fromAddress = _service.Account;
+                string fromAddress = _account;
 
                 var transaction = (TransactionInput)paramList[0];
                 transaction.From = fromAddress;
                 paramList[0] = transaction;
 
-                var rpcRequest = new MetaMaskRpcRequestMessage(route, method, fromAddress, paramList);
+                var rpcRequest = new NethereumRpcRequestMessage(route, method, fromAddress, paramList);
 
-                RpcResponseMessage response = await _service.RpcRequest(rpcRequest);
+                RpcResponseMessage response = await Request(rpcRequest);
                 return ConvertResponse<T>(response);
             }
             else
             {
-                var rpcRequest = new RpcRequestMessage(route, method, paramList);
+                var rpcRequest = new Nethereum.JsonRpc.Client.RpcMessages.RpcRequestMessage(route, method, paramList);
 
-                RpcResponseMessage response = await _service.RpcRequest(rpcRequest);
+                RpcResponseMessage response = await Request(rpcRequest);
                 return ConvertResponse<T>(response);
             }
         }
 
         //-- 
+
+        private async ValueTask<Nethereum.JsonRpc.Client.RpcMessages.RpcResponseMessage> Request(Nethereum.JsonRpc.Client.RpcMessages.RpcRequestMessage request)
+        {
+            string requestJson = JsonConvert.SerializeObject(request);
+            string responseJson = await _jsonRpcProvider.Request(requestJson);
+
+            var response = JsonConvert.DeserializeObject<Nethereum.JsonRpc.Client.RpcMessages.RpcResponseMessage>(responseJson);
+            return response!;
+        }
 
         private void HandleRpcError(RpcResponseMessage response)
         {

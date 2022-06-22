@@ -2,49 +2,71 @@
 
 This library provides an interface to web3 compatible browser plugins like MetaMask for use within Blazor WebAssembly.
 
-## How to use
+## Usage
 
-Register the provider:
+### Configuration
+
+Basic MetaMask configuration
 
 ```cs
-builder.Services.AddEtherProvider();
+builder.Services.AddEtherProviderRegistry(config => config.AddMetaMaskProvider());
 ```
 
-Inject the provider into a Razor page:
+Custom configuration example
+
+```cs
+builder.Services.AddEtherProviderRegistry( config =>
+    {
+        // quick metamask configuration with custom name
+        config.AddMetaMaskProvider("my-metamask");
+
+        // example of disabling events
+        //options.AddMetaMaskProvider("my-metamask").Configure(x => x.EnableEvents = false);
+
+        // custom  configure
+        config.AddProvider("ronin")
+            .Configure(x =>
+            {
+                x.ProviderPath = "ronin.provider";
+                x.SupportsEip1193 = false;
+                x.SupportsEip1102 = false;
+            });
+    }
+);
+```
+
+The __ProviderPath__ property is the global javascript object path to the provider. For MetaMask the global object is "window.ethereum", when configuring the __ProviderPath__ the "window" part should be removed. So for MetaMask is would be ```x.ProviderPath = "ethereum";```
+
+### Using the provider
+
+__Inject the registry into a Razor page:__
 
 ```cs
 @using Ether.BlazorProvider
-@inject IEtherProvider EtherProvider;
+@inject IEtherProviderRegistry _registry;
 ```
 
-Initialise the provider:
-
-Parameters
-
-* name: this is user supplied and can be anything
-* options:
-  * ProviderPath: this is the global javascript object that the browser plugin creates for the provider.
-  * SupportsEip1193: indicates if the provider supports EIP 1193, the default is true
-
-Example: if the global javascript is "window.ronin.provider" then ProviderPath will be "ronin.provider". The window part is not required and will be ignored if included.
+__Get a single provider__ (this only applies if one provider has been configured)
 
 ```cs
-var options = new JsonRpcProviderOptions()
-    {
-        ProviderPath = "ethereum",
-        SupportsEip1193 = true
-    };
-
-IJsonRpcProvider myProvider = await _etherProvider.InitProvider("my-provider", options );
+var myProvider = await _registry.GetSingleProvider();
 ```
 
-Check if the provider path is available
+__Get a provider by name__ (acquire the provider using the configured name)
+
+```cs
+var myProvider = await _registry.GetProvider("my-metamask");
+```
+
+__Check if the provider is available:__
 
 ```cs
 bool isAvailable = await myProvider.IsAvailable();
 ```
 
-Connect to the provider:
+This checks if the underlying javascript object supplied by the browser extension exists.
+
+__Connect to a provider:__
 
 ```cs
 string connectedAccount = await myProvider.Connect();
@@ -52,16 +74,20 @@ string connectedAccount = await myProvider.Connect();
 
 The currently selected account address is returned if the connect is successful, otherwise exceptions can be thrown if access is denied. ```Connect()``` should be called before using any of the other methods.
 
+For providers which have been configured with ```SupportsEip1102 = true;``` (the default) a "eth_requestAccounts" RPC call is made.
+
+For providers which have been configured with ```SupportsEip1102 = false;``` a "eth_accounts" RPC is made.
+
 Connect can take a optional timeout parameter which will results in an exception being thrown if the timeout occurs.
 
-
-To get the account or chain ID.
+__To get the account or chain ID:__
 
 ```cs
 string account = await myProvider.GetAccount();
 long chainId = await myProvider.GetChainId();
 ```
 
+__General RPC Calls:__
 
 To make general Ethereum RPC calls use ```Request()```. The methods and parameters of the RPC calls must conform to the [Ethereum RPC specification](https://eth.wiki/json-rpc/API#json-rpc-methods).
 
@@ -78,10 +104,10 @@ See Ether.BlazorProvider.Sample for a simple working example
 
 ## Warning
 
-Executing blockchain transactions are irreversible. Ensure sufficient testing has been done on testnet's before any live transactions are attempted.
+Executing blockchain transactions are irreversible. Ensure sufficient testing has been done using testnet's before any live transactions are attempted.
 
-This software is provided as is wth no warranty of any kind, see the [license](../LICENSE)
+This software is provided as is with no warranty of any kind, see the [license](../LICENSE)
 
 ## Comments / Suggestions
 
-Feel free to suggest any improvements or bug fixes
+Feel free to suggest any improvements or bug fixes.
