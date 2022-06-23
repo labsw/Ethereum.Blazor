@@ -17,7 +17,7 @@ This library depends on the Ether.BlazorProvider and [Netherem](https://nethereu
 
 Executing blockchain transactions are irreversible. Ensure sufficient testing has been done on testnet's before any live transactions are attempted.
 
-This software is provided as is wth no warranty of any kind, see the [license](LICENSE)
+This software is provided as is with no warranty of any kind, see the [license](LICENSE)
 
 ## Commets / Suggestions
 
