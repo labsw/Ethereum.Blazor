@@ -98,7 +98,7 @@ var request = new RpcRequestMessage(1, "eth_getBalance", Account, "latest");
 RpcResponseMessage response = await myProvider.Request(request);
 ```
 
-__Events___
+__Events__
 
 The following events are available:
 
@@ -124,7 +124,7 @@ private void OnAccountChanged(string account)
 
 ## Sample App
 
-See Ether.BlazorProvider.Sample for a simple working example
+See [Ether.BlazorProvider.Sample](https://github.com/labsw/Ethereum.Blazor/tree/master/Ether.BlazorProvider.Sample) for a simple working example
 
 ## Warning
 

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
+		<Title>A package for accessing Web3 RPC clients like MetaMask using Blazor</Title>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/labsw/Ethereum.Blazor</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/labsw/Ethereum.Blazor</RepositoryUrl>
@@ -15,8 +16,9 @@
 		<PackageTags>blazor metamask ethereum blockchain web3</PackageTags>
 		<Version>1.0.0</Version>
 		<Authors>steve.whiting</Authors>
-		<Description>This package provides an interface to EIP 1193 and legacy web3 clients like MetaMask for use within Blazor WebAssembly</Description>
+		<Description>This package provides an interface to EIP 1193 and legacy web3 browser clients like MetaMask for use within Blazor WebAssembly.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright (c) 2022 Steve Whiting</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

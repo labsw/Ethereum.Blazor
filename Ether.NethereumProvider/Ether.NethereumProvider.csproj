@@ -8,6 +8,7 @@
   </PropertyGroup>
 
 	<PropertyGroup>
+		<Title>A Nethereum IWeb3 client implementation for supporting wallets like MetaMask for use within Blazor</Title>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/labsw/Ethereum.Blazor</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/labsw/Ethereum.Blazor</RepositoryUrl>
@@ -15,8 +16,9 @@
 		<PackageTags>nethereum blazor metamask ethereum blockchain web3</PackageTags>
 		<Version>1.0.0</Version>
 		<Authors>steve.whiting</Authors>
-		<Description>This package provides IWeb3 client implementation to supporting wallets like MetaMask for use within Blazor WebAssembly</Description>
+		<Description>This package provides IWeb3 client implementation for supporting wallets like MetaMask for use within Blazor WebAssembly</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright (c) 2022 Steve Whiting</Copyright>
 	</PropertyGroup>
 
 
