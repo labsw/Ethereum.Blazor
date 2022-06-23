@@ -8,6 +8,9 @@ namespace Ether.BlazorProvider.Lib
 {
     public interface ISigner
     {
+        /// <summary>
+        /// Signs a message using  
+        /// </summary>
         ValueTask<string> SignMessage(string message);
     }
 }

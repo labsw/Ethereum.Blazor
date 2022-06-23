@@ -1,6 +1,6 @@
 ﻿# Ether.NethereumProvider
 
-This library provides a [Netherem](https://nethereum.com) IWeb3 client interface for use within Blazor WebAssembly.
+This library provides a [Nethereum](https://nethereum.com) IWeb3 client interface for use within Blazor WebAssembly.
 
 ## Usage
 
@@ -16,6 +16,7 @@ builder.Services.AddEtherProviderRegistry(config => config.AddMetaMaskProvider()
 
 builder.Services.AddNethereumProviderRegistry();
 ```
+
 ### Using the provider
 
 Inject the provider into a Razor page:

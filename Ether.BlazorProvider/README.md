@@ -98,7 +98,7 @@ var request = new RpcRequestMessage(1, "eth_getBalance", Account, "latest");
 RpcResponseMessage response = await myProvider.Request(request);
 ```
 
-__Events__
+__Events:__
 
 The following events are available:
 
