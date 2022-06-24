@@ -119,7 +119,15 @@ private void OnAccountChanged(string account)
 {
     // todo
 }
+```
 
+__Signer:__
+
+The signer interface can be used to sign messages.
+
+```cs
+ISigner signer = myProvider.GetSigner();
+string signedMessage = await signer.SignMessage("message to sign");
 ```
 
 ## Sample App

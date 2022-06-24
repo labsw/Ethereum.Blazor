@@ -10,11 +10,13 @@
     <div>ChainId:@ChainId</div>
     <div>Balance (Eth):@BalanceInEth</div>
     <div>Balance (Wei):@BalanceInWei</div>
+    <div>Signed Message: "@_message" => "@SignedMessage"</div>
 </div>
 
 <div>
     <button class="btn btn-primary" @onclick="OnConnect">Connect</button>
     <button class="btn btn-primary" @onclick="OnRefresh">Refresh</button>
+    <button class="btn btn-primary" @onclick="OnSignMessage">Sign Message</button>
 </div>
 
 
@@ -25,11 +27,15 @@
     [Parameter]
     public IJsonRpcProvider? Provider { get; set; }
 
+    private const string _message = "hello, there";
+
+
     private bool IsAvailable { get; set; }
     private string Account { get; set; } = "<none>";
     private long ChainId { get; set; }
     private double BalanceInEth { get; set; } = 0;
     private string BalanceInWei { get; set; } = "";
+    private string SignedMessage { get; set; } = "<click Sign Message>";
 
     protected async override Task OnParametersSetAsync()
     {
@@ -88,6 +94,15 @@
         ChainId = await Provider.GetChainId();
         await RefreshBalance();
     }
+
+    private async Task OnSignMessage()
+    {
+        if (Provider == null) return;
+
+        ISigner signer = Provider.GetSigner();
+        SignedMessage = await signer.SignMessage(_message);
+    }
+
 
     private async Task RefreshBalance()
     {

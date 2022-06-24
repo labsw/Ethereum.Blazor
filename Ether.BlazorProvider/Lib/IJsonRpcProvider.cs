@@ -64,5 +64,10 @@
         /// <returns>A JSON string with the RPC response</returns>
         ValueTask<string> Request(string request, TimeSpan? timeout = null);
 
+        /// <summary>
+        /// Returns an interface that can sign messages
+        /// </summary>
+        ISigner GetSigner();
+
     }
 }

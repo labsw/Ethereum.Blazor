@@ -12,6 +12,7 @@ namespace Ether.BlazorProvider.Internal
         private IJsonRpcProviderInterop _providerInterop;
         private readonly string _name;
         private readonly JsonRpcProviderOptions _options;
+        private readonly JsonRpcSigner _signer;
 
         private string? _account;
         private long _chainId;
@@ -26,6 +27,7 @@ namespace Ether.BlazorProvider.Internal
             _providerInterop = providerInterop;
             _name = name;
             _options = options;
+            _signer = new JsonRpcSigner(this);
         }
 
         public JsonRpcProviderOptions Options => _options;
@@ -78,6 +80,11 @@ namespace Ether.BlazorProvider.Internal
             return _providerInterop.Request(request,timeoutInMs);
         }
 
+        public ISigner GetSigner()
+        {
+            return _signer;
+        }
+
         //--
 
         internal async ValueTask ConfigureEvents()
@@ -127,6 +134,5 @@ namespace Ether.BlazorProvider.Internal
         {
             UpdateChainId(chainId);
         }
-
     }
 }

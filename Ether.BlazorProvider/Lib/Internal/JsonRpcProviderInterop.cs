@@ -45,6 +45,11 @@ namespace Ether.BlazorProvider.Internal
             _dotNetObjectReference = dotNetObjectReference;
         }
 
+        public ValueTask<string> SignMessage(string message)
+        {
+            return _jsProvider.InvokeAsync<string>("signMessage", message);
+        }
+
         public ValueTask<string> Request(string jsonRequest, long? timeoutInMs)
         {
             return _jsProvider.InvokeAsync<string>("request", jsonRequest, timeoutInMs);
