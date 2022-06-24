@@ -127,7 +127,13 @@ The signer interface can be used to sign messages.
 
 ```cs
 ISigner signer = myProvider.GetSigner();
+
+// this call will first do a RPC call to get the selcted address
 string signedMessage = await signer.SignMessage("message to sign");
+
+// use if you are tracking the account address
+//string signedMessage = await signer.SignMessage("message to sign",address);
+
 ```
 
 ## Sample App
