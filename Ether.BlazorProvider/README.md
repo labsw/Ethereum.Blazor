@@ -140,6 +140,13 @@ string signedMessage = await signer.SignMessage("message to sign");
 
 See [Ether.BlazorProvider.Sample](https://github.com/labsw/Ethereum.Blazor/tree/master/Ether.BlazorProvider.Sample) for a simple working example
 
+## Acknowledgements
+
+The following projects provided inspiration.
+
+* https://github.com/Nethereum/Nethereum.Templates.Metamask.Blazor
+* https://docs.ethers.io/v5/
+
 ## Warning
 
 Executing blockchain transactions are irreversible. Ensure sufficient testing has been done using testnet's before any live transactions are attempted.
