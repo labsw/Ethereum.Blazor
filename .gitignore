@@ -1,5 +1,6 @@
 .vs
 .idea
+/Scripts
 *.DotSettings.user
 /tools/TraderLab/scripts/app.js.map
 /tools/TraderLab/scripts/app.js
