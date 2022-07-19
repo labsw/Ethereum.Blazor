@@ -1,7 +1,7 @@
 
 
 $solutionPath = "..\Ethereum.Blazor.sln"
-$nugetApiKey = "oy2mlxpmvhompqcdyxgaypm7bt4de27una3sbjbapg2yb4"
+$nugetApiKey = "xx"
 
 Write-Host "Build and publish to NuGet"
 
