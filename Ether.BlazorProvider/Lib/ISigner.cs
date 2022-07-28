@@ -19,7 +19,7 @@ namespace Ether.BlazorProvider
         /// <summary>
         /// Signs a message using the person_sign RPC spec.
         /// This method will first get the selected wallet address by executing a RPC call. 
-        /// If the caller is tracking the addres then the SignMessage(string message,string address) should rather be used
+        /// If the caller is tracking the address then the SignMessage(string message,string address) should rather be used
         /// </summary>
         /// <param name="message"></param>
         ValueTask<string> SignMessage(string message);

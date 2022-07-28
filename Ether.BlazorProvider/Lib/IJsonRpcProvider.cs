@@ -25,12 +25,12 @@
         /// <summary>
         /// Returns a boolean indicating whether the provider extension is installed or not
         /// </summary>
-        /// <returns>True if the provider extension is abailable in the browser otherwise false</returns>
+        /// <returns>True if the provider extension is available in the browser otherwise false</returns>
         ValueTask<bool> IsAvailable();
 
         /// <summary>
-        /// If the provider was configured with SupportEip1102 = true then access to the wallet is requested. Exceptions can be throwed if access is denied.
-        /// If the provider was configured with SupportEip1102 = false then GetAccount() is called to return the current wallets's account.
+        /// If the provider was configured with SupportEip1102 = true then access to the wallet is requested. Exceptions can be thrown if access is denied.
+        /// If the provider was configured with SupportEip1102 = false then GetAccount() is called to return the current wallet's account.
         /// An optional timeout can be supplied with an exception being throw if the timeout expires
         /// </summary>
         /// <returns>The account address</returns>
@@ -52,15 +52,13 @@
         /// Execute a RPC call.
         /// Optional timeout duration
         /// </summary>
-        /// <param name="request">The RPC request</param>
-        /// <returns>The RPC response</returns>
         ValueTask<IRpcResponseMessage> Request(RpcRequestMessage request, TimeSpan? timeout = null);
 
         /// <summary>
         /// Execute a RPC call. The request JSON should conform to the Ethererum RPC specification.
         /// Optional timeout duration
         /// </summary>
-        /// <param name="request">A JSON string that containes the RPC request</param>
+        /// <param name="request">A JSON string that contains the RPC request</param>
         /// <returns>A JSON string with the RPC response</returns>
         ValueTask<string> Request(string request, TimeSpan? timeout = null);
 

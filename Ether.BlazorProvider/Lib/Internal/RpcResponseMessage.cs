@@ -19,7 +19,7 @@
         {
             _dto = dto;
             if (_dto.HasError)
-                Error = new RpcResonseError(dto.Error!);
+                Error = new RpcResponseError(dto.Error!);
         }
 
         public T ResultAs<T>()
@@ -28,13 +28,13 @@
         }
     }
 
-    //-- RpcResonseError
+    //-- RpcResponseError
 
-    internal class RpcResonseError: IRpcResponseError
+    internal class RpcResponseError: IRpcResponseError
     {
-        private RpcResonseErrorDto _dto;
+        private readonly RpcResonseErrorDto _dto;
 
-        public RpcResonseError(RpcResonseErrorDto dto)
+        public RpcResponseError(RpcResonseErrorDto dto)
         {
             _dto = dto;
         }

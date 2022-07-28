@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ether.BlazorProvider
+﻿namespace Ether.BlazorProvider
 {
     /// <summary>
     /// The RPC response message returned after a Request() call
@@ -32,7 +26,7 @@ namespace Ether.BlazorProvider
         bool HasError { get; }
 
         /// <summary>
-        /// A RPC errror that was returned from a Request() call, null if there is no error
+        /// A RPC error that was returned from a Request() call, null if there is no error
         /// </summary>
         IRpcResponseError? Error { get; }
 

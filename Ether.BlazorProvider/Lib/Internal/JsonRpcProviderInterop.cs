@@ -44,12 +44,7 @@ namespace Ether.BlazorProvider.Internal
             _onChainIdChanged = onChainChanged;
             _dotNetObjectReference = dotNetObjectReference;
         }
-
-        public ValueTask<string> SignMessage(string message)
-        {
-            return _jsProvider.InvokeAsync<string>("signMessage", message);
-        }
-
+        
         public ValueTask<string> Request(string jsonRequest, long? timeoutInMs)
         {
             return _jsProvider.InvokeAsync<string>("request", jsonRequest, timeoutInMs);
@@ -66,16 +61,16 @@ namespace Ether.BlazorProvider.Internal
             if (responseMessage != null)
                 return responseMessage;
 
-            throw new EtherProviderException("Failed to deserialised response");
+            throw new EtherProviderException("Failed to deserialize response");
         }
 
         public async ValueTask RemoveEvents()
         {
-            if( _dotNetObjectReference != null )
+            if (_dotNetObjectReference != null)
             {
                 await _jsProvider.InvokeVoidAsync("removeEvents");
             }
-       }
+        }
 
         public async ValueTask DisposeAsync()
         {

@@ -9,7 +9,7 @@ namespace Ether.BlazorProvider.Internal
 {
     internal class JsonRpcProvider : IJsonRpcProvider
     {
-        private IJsonRpcProviderInterop _providerInterop;
+        private readonly IJsonRpcProviderInterop _providerInterop;
         private readonly string _name;
         private readonly JsonRpcProviderOptions _options;
         private readonly JsonRpcSigner _signer;

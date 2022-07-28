@@ -12,8 +12,7 @@ namespace Ether.BlazorProvider
         {
             var etherProviderConfiguration = new EtherProviderConfiguration();
 
-            if (options != null)
-                options(etherProviderConfiguration);
+            options?.Invoke(etherProviderConfiguration);
 
             services.AddSingleton<IEtherProviderRegistry>(
                 x => new EtherProviderRegistry(x.GetRequiredService<IJSRuntime>(), etherProviderConfiguration));

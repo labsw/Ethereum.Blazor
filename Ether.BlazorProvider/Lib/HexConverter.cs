@@ -9,8 +9,8 @@ namespace Ether.BlazorProvider
     {
         /// <summary>
         /// Converts a hex string into a long.
-        /// If the hex string starts with "0x" this will be stripped before the convertion happens.
-        /// Exceptions can be thrown if the hex value cannnot be converted into a long.
+        /// If the hex string starts with "0x" this will be stripped before the conversion happens.
+        /// Exceptions can be thrown if the hex value cannot be converted into a long.
         /// </summary>
         public static long HexToLong(string hex)
         {

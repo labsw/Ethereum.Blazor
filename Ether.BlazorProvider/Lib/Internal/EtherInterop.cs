@@ -7,6 +7,7 @@ namespace Ether.BlazorProvider.Internal
     internal class EtherInterop : IEtherInterop, IAsyncDisposable
     {
         private const string _etherServiceName = "EtherInteropService";
+        
         private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 
         public EtherInterop(IJSRuntime jsRuntime)

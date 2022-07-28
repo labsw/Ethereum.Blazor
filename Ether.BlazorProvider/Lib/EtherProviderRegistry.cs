@@ -8,8 +8,8 @@ namespace Ether.BlazorProvider
         private readonly IEtherInterop _etherInterop;
         private readonly EtherProviderConfiguration _etherProviderConfiguration;
 
-        private Dictionary<string, IJsonRpcProvider> _providers = new Dictionary<string, IJsonRpcProvider>();
-        private SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+        private readonly Dictionary<string, IJsonRpcProvider> _providers = new Dictionary<string, IJsonRpcProvider>();
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
 
         public EtherProviderRegistry(IJSRuntime jsRuntime, EtherProviderConfiguration etherProviderConfiguration)
         {
@@ -59,7 +59,7 @@ namespace Ether.BlazorProvider
 
                 // this is a sanity check - as the HasSingleProvider check above should guard against this ever occuring
                 if (keyValuePair == null)
-                    throw new EtherProviderException($"Exactly one provider must be configred");
+                    throw new EtherProviderException($"Exactly one provider must be configured");
 
                 string name = keyValuePair.Value.Key;
 
@@ -78,7 +78,7 @@ namespace Ether.BlazorProvider
 
         private async ValueTask<IJsonRpcProvider> InitProvider(string name, JsonRpcProviderOptions options)
         {
-            var optionsDto = BuildOptopnsDto(options);
+            var optionsDto = BuildOptionsDto(options);
 
             IJsonRpcProviderInterop providerInterop = await _etherInterop.InitProvider(name, optionsDto);
             var provider = new JsonRpcProvider(providerInterop, name, options);
@@ -93,7 +93,7 @@ namespace Ether.BlazorProvider
 
         //-- 
 
-        private JsonRpcProviderOptionsDto BuildOptopnsDto(JsonRpcProviderOptions options)
+        private JsonRpcProviderOptionsDto BuildOptionsDto(JsonRpcProviderOptions options)
         {
             var dto = new JsonRpcProviderOptionsDto(
                 providerPath:BuildProviderPath(options.ProviderPath),
